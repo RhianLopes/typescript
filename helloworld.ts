@@ -8,9 +8,7 @@ let nunca: never; // tipagem para código inacessivel, como uma função lançad
 let desconhecida: unknown; // tipo ainda indefinido como o any, mas que garante que será validada tipagem antes do uso
 let vazio: void; // tipagem vazia quando não terá retorno
 
-
-
-function numberStringSwap(value: any): any { // tipo de recebimento e retono qualquer
+function numberStringSwap(value: unknown): unknown { // tipo de recebimento e retono qualquer
     if (typeof value === 'string') { // typeof busca o tipo do valor any
         return parseInt(value); // converte de string para number
     }
@@ -19,6 +17,15 @@ function numberStringSwap(value: any): any { // tipo de recebimento e retono qua
     }
 }
  
+// console.log(numberStringSwap('sadas') + 1) Erro, por conta de tentar ser usado um tipo unknown somando a um number
+
+let teste: any = 2;
+teste.toString()
+
+let teste2: unknown = '';
+let teste3: unknown = '';
+// console.log(teste2 as string + teste3)
+
 const num = <number> numberStringSwap('1234'); // sintaxe assim como as para conversão de tipo <number>
 // 1234
 
@@ -36,13 +43,13 @@ let geo: { // criado um tipo objeto
 geo = { lat: 0, lon: 0 };
 // OK, mesmas propriedades
 
-// point = { lat: 'zero', lon: 0 };
+// geo = { lat: 'zero', lon: 0 };
 // Erro, tipo da propriedade `lat` está errado
 
-// point = { lat: 0 };
+// geo = { lat: 0 };
 // Erro, faltando propriedade `lon`
 
-// point = { lat: 0, lon: 0, z: 0 };
+// geo = { lat: 0, lon: 0, z: 0 };
 // Erro, atribuição literal deve contar apenas propriedades declaradas
 
 const otherGeo = { lat: 0, lon: 0, z: 0 };
@@ -54,12 +61,14 @@ let geo2: { lat: number; lon: number; };
 // let geo3: { lat: number; lon: number; };
 let geo3: typeof geo2 // o mesmo que a linha acima, é assumido como tipo de geo3 o tipo de obj do geo2
 
+
 interface Geo { // como no exemplo acima, mas fazendo o uso de interfaces, nomeando tipos de obj
     lat: number;
     lon: number;
 }
 
 let geo4: Geo = { lat: 0, lon: 0 } ; // podemos deixar o tipo Geo agora nomeado em várias variaveis somente por seu nome
+
 
 interface Geo3D extends Geo { // podemos extender de uma outra interface para acrescentar mais variaveis a tipagem
     z: number
@@ -76,3 +85,17 @@ interface GeoOptional { // nova tipagem possuindo 3 parâmetros
 // let opt: GeoOptional = { lat: 0 } Erro, faltante do parametro lon: 0
 let opt: GeoOptional = { lat: 0, lon: 0 }
 let opt2: GeoOptional = { lat: 0, lon: 0, z: 0}
+
+
+interface Example { // nova tipagem possuindo 3 parâmetros
+    lat: number;
+    lon: number;
+    z?: number; // parametro opcional (?)
+    toString: Function;
+}
+
+function toString(): string {
+    return 'teste'
+}
+
+let teste90: Example = { lat: 0, lon: 0, toString: toString}
