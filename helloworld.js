@@ -47,7 +47,49 @@ var geo5 = { lat: 0, lon: 0, z: 0 };
 var opt = { lat: 0, lon: 0 };
 var opt2 = { lat: 0, lon: 0, z: 0 };
 function toString() {
-    return 'dilma';
+    return 'teste';
 }
-var teste90 = { lat: 0, lon: 0, toString: toString };
-console.log(teste90.toString());
+// let teste90: Example = { lat: 0, lon: 0, toString: toString}
+// Object TypeScript 2.2+
+var newObject;
+var newObject2;
+// newObject = '' Error, Type 'string' is not assignable to type 'object'.
+newObject = {}; // Aceita somente objetos
+newObject2 = true; // Aceita primitivos 
+newObject2 = {}; // E objetos
+var printPoint;
+// Função pode ser tipada com o uso de new na frente da mesma
+var Example;
+var Igual;
+function sobrecarregada(value, radix) {
+    if (radix === void 0) { radix = 10; }
+    if (typeof value === 'string') {
+        return parseInt(value, radix);
+    }
+    else if (typeof value === 'number') {
+        return String(value);
+    }
+}
+// GENERICOS
+function genericPrintString(value) {
+    return String(value);
+}
+// console.log(genericPrintString(true)) 'true'
+function genericPrintString2(value) {
+    // return value + 3 Error, T deve extender de string
+    // return value + true
+    // return value + {}
+    return value + 'teste';
+}
+console.log(genericPrintString2(12));
+// UNIÃO
+// É possível fazer uma espécie de genérico limitado, limitando união de tipos
+function unionPrint(element) {
+    if (typeof element === 'string') {
+        return element;
+    }
+    else {
+        return String(element);
+    }
+}
+// console.log()

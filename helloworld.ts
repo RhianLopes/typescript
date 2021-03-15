@@ -98,4 +98,132 @@ function toString(): string {
     return 'teste'
 }
 
-let teste90: Example = { lat: 0, lon: 0, toString: toString}
+// let teste90: Example = { lat: 0, lon: 0, toString: toString}
+
+// Object TypeScript 2.2+
+
+let newObject: object
+let newObject2: Object
+
+// newObject = '' Error, Type 'string' is not assignable to type 'object'.
+newObject = { }   // Aceita somente objetos
+
+newObject2 = true // Aceita primitivos 
+newObject2 = {}   // E objetos
+
+// FUNÇÕES
+
+interface FunctionExample {
+    x: number;
+    y: number;
+    z?: number;
+    toGeo: () => FunctionExample;
+}
+
+let printPoint: (point: FunctionExample) => string;
+
+// Função pode ser tipada com o uso de new na frente da mesma
+let Example: { new (): FunctionExample; };
+let Igual: new () => FunctionExample;
+
+// SOBRECARREGADA
+
+// Funções que possuem mesmo nome mas assinaturas diferentes
+function sobrecarregada(value: number, radix?: number): string;
+function sobrecarregada(value: string): number;
+function sobrecarregada(value: any, radix: number = 10): any {
+    if (typeof value === 'string') {
+        return parseInt(value, radix);
+    }
+    else if (typeof value === 'number') {
+        return String(value);
+    }
+}
+
+// GENERICOS
+
+function genericPrintString<T>(value: T): string {
+    return String(value)
+}
+
+// console.log(genericPrintString(true)) 'true'
+
+function genericPrintString2<T = string>(value: T): string {
+    // return value + 3 Error, T deve extender de string
+    // return value + true
+    // return value + {}
+    return value + 'teste'
+}
+
+// console.log(genericPrintString2(12))  '12teste'
+ 
+// UNIÃO
+
+// É possível fazer uma espécie de genérico limitado, limitando união de tipos
+function unionPrint(element: string | boolean): string | boolean {
+    if (typeof element === 'string') {
+      return element
+    }
+    else {
+      return element;
+    }
+}
+
+// console.log(unionPrint('teste')) 'teste'
+// console.log(unionPrint(false)) false
+// console.log(unionPrint(1)) Error, Argument of type '1' is not assignable to parameter of type 'string | true'.ts(2345)
+
+function unionPrint2(element: string | true | number | any): string { 
+    return element 
+}
+
+function unionPrint3<T = string | number>(value: T | boolean): T | boolean {
+    // return value + 3 Error, T deve extender de string
+    // return value + true
+    // return value + {}
+    return value
+}
+
+// INTERSECÇÃO
+
+interface Inter {
+    name: string;
+    count: number;
+}
+ 
+interface Gremio {
+    name: string;
+    age: number;
+}
+ 
+export type Grenal = Inter & Gremio;
+
+// cuidados com tipos duplicados
+
+interface InterDuplicate {
+    count: string;
+}
+ 
+interface GremioDuplicate {
+    count: number;
+}
+ 
+export type GrenalDuplicate = InterDuplicate & GremioDuplicate;
+/* GrenalDuplicate.count é do tipo `string & number` */
+
+// let testee: GrenalDuplicate = { count: ''} Error, Type 'string' is not assignable to type 'never'.
+
+// MAPEADOS
+
+// Transforma os tipos do T recebido em string
+type Stringify<T> = {
+    [P in keyof T]: string;
+};
+ 
+interface Point { x: number; y: number; }
+ 
+// transformação
+type StringPoint = Stringify<Point>;
+ 
+const pointA: StringPoint = { x: '4', y: '3' };
+// válido
