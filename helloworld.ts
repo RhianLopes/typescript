@@ -108,8 +108,12 @@ let newObject2: Object
 // newObject = '' Error, Type 'string' is not assignable to type 'object'.
 newObject = { }   // Aceita somente objetos
 
-newObject2 = true // Aceita primitivos 
+newObject2 = newObject // Aceita primitivos 
 newObject2 = {}   // E objetos
+
+newObject2 = newObject;
+console.log(newObject)
+console.log(typeof newObject) 
 
 // FUNÇÕES
 

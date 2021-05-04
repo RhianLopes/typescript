@@ -1,5 +1,6 @@
 "use strict";
 // TIPOS PRIMITIVOS
+Object.defineProperty(exports, "__esModule", { value: true });
 var verdadeiro; // false ou true
 var numeros; // todos os numéricos
 var palavras; // caracteres
@@ -54,9 +55,12 @@ function toString() {
 var newObject;
 var newObject2;
 // newObject = '' Error, Type 'string' is not assignable to type 'object'.
-newObject = {}; // Aceita somente objetos
+// newObject = { }   // Aceita somente objetos
 newObject2 = true; // Aceita primitivos 
-newObject2 = {}; // E objetos
+// newObject2 = {}   // E objetos
+newObject = newObject2;
+console.log(newObject);
+console.log(typeof newObject);
 var printPoint;
 // Função pode ser tipada com o uso de new na frente da mesma
 var Example;
@@ -81,7 +85,7 @@ function genericPrintString2(value) {
     // return value + {}
     return value + 'teste';
 }
-console.log(genericPrintString2(12));
+// console.log(genericPrintString2(12))  '12teste'
 // UNIÃO
 // É possível fazer uma espécie de genérico limitado, limitando união de tipos
 function unionPrint(element) {
@@ -89,7 +93,20 @@ function unionPrint(element) {
         return element;
     }
     else {
-        return String(element);
+        return element;
     }
 }
-// console.log()
+// console.log(unionPrint('teste')) 'teste'
+// console.log(unionPrint(false)) false
+// console.log(unionPrint(1)) Error, Argument of type '1' is not assignable to parameter of type 'string | true'.ts(2345)
+function unionPrint2(element) {
+    return element;
+}
+function unionPrint3(value) {
+    // return value + 3 Error, T deve extender de string
+    // return value + true
+    // return value + {}
+    return value;
+}
+var pointA = { x: '4', y: '3' };
+// válido
