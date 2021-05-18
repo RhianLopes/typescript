@@ -112,8 +112,8 @@ newObject2 = newObject // Aceita primitivos
 newObject2 = {}   // E objetos
 
 newObject2 = newObject;
-console.log(newObject)
-console.log(typeof newObject) 
+// console.log(newObject)
+// console.log(typeof newObject) 
 
 // FUNÇÕES
 
@@ -130,19 +130,19 @@ let printPoint: (point: FunctionExample) => string;
 let Example: { new (): FunctionExample; };
 let Igual: new () => FunctionExample;
 
-// SOBRECARREGADA
+// SOBRECARREGADA Não tem > 1.4
 
 // Funções que possuem mesmo nome mas assinaturas diferentes
-function sobrecarregada(value: number, radix?: number): string;
-function sobrecarregada(value: string): number;
-function sobrecarregada(value: any, radix: number = 10): any {
-    if (typeof value === 'string') {
-        return parseInt(value, radix);
-    }
-    else if (typeof value === 'number') {
-        return String(value);
-    }
-}
+// function sobrecarregada(value: string, radix: number): string {
+//     return value;
+// }
+
+// function sobrecarregada(value2: number, radix2: string): string {
+//     return '';
+// }
+
+// sobrecarregada(1, 1)
+// sobrecarregada(1, 'a')
 
 // GENERICOS
 
@@ -150,7 +150,8 @@ function genericPrintString<T>(value: T): string {
     return String(value)
 }
 
-// console.log(genericPrintString(true)) 'true'
+// console.log(genericPrintString(true)) true
+// console.log(genericPrintString(() => {})) function () { }
 
 function genericPrintString2<T = string>(value: T): string {
     // return value + 3 Error, T deve extender de string
@@ -159,7 +160,8 @@ function genericPrintString2<T = string>(value: T): string {
     return value + 'teste'
 }
 
-// console.log(genericPrintString2(12))  '12teste'
+// console.log(genericPrintString2(null))
+// console.log(genericPrintString2(() => {}))
  
 // UNIÃO
 
@@ -167,8 +169,7 @@ function genericPrintString2<T = string>(value: T): string {
 function unionPrint(element: string | boolean): string | boolean {
     if (typeof element === 'string') {
       return element
-    }
-    else {
+    } else {
       return element;
     }
 }
@@ -188,6 +189,17 @@ function unionPrint3<T = string | number>(value: T | boolean): T | boolean {
     return value
 }
 
+interface ObjetoLindo {
+    batata: string;
+    batata2: number;
+}
+
+const bla: ObjetoLindo = {batata: 'batatinha', batata2: 1}
+
+const blo = ''
+const ble = unionPrint3(bla);
+// console.log(ble.toString().charAt(1))
+
 // INTERSECÇÃO
 
 interface Inter {
@@ -196,11 +208,14 @@ interface Inter {
 }
  
 interface Gremio {
-    name: string;
+    name2: string;
     age: number;
 }
  
 export type Grenal = Inter & Gremio;
+
+// const bli: Grenal = {name: '', count: 1, age: 1, name2: ''}
+// console.log(bli)
 
 // cuidados com tipos duplicados
 
@@ -228,6 +243,11 @@ interface Point { x: number; y: number; }
  
 // transformação
 type StringPoint = Stringify<Point>;
+// acima é o mesmo que abaixo 
+// interface Point222 { x: string; y: string; }
+
+const blu: Point = {x: 4, y: 3}
+// type StringPoint2 = Stringify<blu>; somente tipos podem ser passados, não valores
  
 const pointA: StringPoint = { x: '4', y: '3' };
 // válido

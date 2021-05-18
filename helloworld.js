@@ -55,37 +55,38 @@ function toString() {
 var newObject;
 var newObject2;
 // newObject = '' Error, Type 'string' is not assignable to type 'object'.
-// newObject = { }   // Aceita somente objetos
-newObject2 = true; // Aceita primitivos 
-// newObject2 = {}   // E objetos
-newObject = newObject2;
-console.log(newObject);
-console.log(typeof newObject);
+newObject = {}; // Aceita somente objetos
+newObject2 = newObject; // Aceita primitivos 
+newObject2 = {}; // E objetos
+newObject2 = newObject;
 var printPoint;
 // Função pode ser tipada com o uso de new na frente da mesma
 var Example;
 var Igual;
-function sobrecarregada(value, radix) {
-    if (radix === void 0) { radix = 10; }
-    if (typeof value === 'string') {
-        return parseInt(value, radix);
-    }
-    else if (typeof value === 'number') {
-        return String(value);
-    }
-}
+// SOBRECARREGADA Não tem > 1.4
+// Funções que possuem mesmo nome mas assinaturas diferentes
+// function sobrecarregada(value: string, radix: number): string {
+//     return value;
+// }
+// function sobrecarregada(value2: number, radix2: string): string {
+//     return '';
+// }
+// sobrecarregada(1, 1)
+// sobrecarregada(1, 'a')
 // GENERICOS
 function genericPrintString(value) {
     return String(value);
 }
-// console.log(genericPrintString(true)) 'true'
+// console.log(genericPrintString(true)) true
+// console.log(genericPrintString(() => {})) function () { }
 function genericPrintString2(value) {
     // return value + 3 Error, T deve extender de string
     // return value + true
     // return value + {}
     return value + 'teste';
 }
-// console.log(genericPrintString2(12))  '12teste'
+// console.log(genericPrintString2(null))
+// console.log(genericPrintString2(() => {}))
 // UNIÃO
 // É possível fazer uma espécie de genérico limitado, limitando união de tipos
 function unionPrint(element) {
@@ -108,5 +109,10 @@ function unionPrint3(value) {
     // return value + {}
     return value;
 }
+var bla = { batata: 'batatinha', batata2: 1 };
+var blo = '';
+var ble = unionPrint3(bla);
+var bli = { name: '', count: 1, age: 1, name2: '' };
+console.log(bli);
 var pointA = { x: '4', y: '3' };
 // válido
